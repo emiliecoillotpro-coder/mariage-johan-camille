@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ivory: #FFFDF7;
+  --color-sage: #7D8B6A;
+  --color-sage-dark: #6B7A59;
+  --color-gold: #C9A96E;
+  --color-gold-dark: #B8965A;
+  --color-charcoal: #2C2C2C;
+  --color-sage-light: #E8EBE3;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-script: "Dancing Script", cursive;
+}
+
+/* Smooth animations */
+@keyframes checkmark-draw {
+  0% { stroke-dashoffset: 50; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-checkmark {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: checkmark-draw 0.6s ease-out 0.3s forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out forwards;
+}
+
+/* Leaf separator */
+.leaf-separator::before {
+  content: "🌿";
+  font-size: 1rem;
+}
