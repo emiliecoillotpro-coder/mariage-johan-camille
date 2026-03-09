@@ -13,6 +13,7 @@ export default function RSVPPage() {
   const [eventChoice, setEventChoice] = useState<EventChoice | null>(null);
   const [plusOne, setPlusOne] = useState(false);
   const [plusOneName, setPlusOneName] = useState("");
+  const [nombreEnfants, setNombreEnfants] = useState(0);
 
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -50,6 +51,7 @@ export default function RSVPPage() {
         reception_chateau: receptionChateau,
         plus_one: plusOne,
         plus_one_nom: plusOne ? plusOneName.trim() || null : null,
+        nombre_enfants_mairie: nombreEnfants,
 
         message: message.trim() || null,
       });
@@ -267,6 +269,24 @@ export default function RSVPPage() {
                 placeholder="Prénom et nom de votre +1"
               />
             )}
+          </div>
+
+          {/* Nombre d'enfants mairie */}
+          <div>
+            <label className="block text-sm font-medium text-charcoal/70 mb-1">
+              Nombre d&apos;enfants pour la mairie
+            </label>
+            <select
+              value={nombreEnfants}
+              onChange={(e) => setNombreEnfants(parseInt(e.target.value))}
+              className="w-full px-4 py-3 bg-white border border-sage/30 rounded-lg font-serif text-charcoal focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage/30 transition-colors"
+            >
+              {[0, 1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n === 0 ? "Aucun" : n}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Message */}
