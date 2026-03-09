@@ -10,7 +10,8 @@ type RSVPResponse = {
   telephone: string | null;
   ceremonie_civile: boolean;
   reception_chateau: boolean;
-  nombre_accompagnants: number;
+  plus_one: boolean;
+  plus_one_nom: string | null;
   restrictions_alimentaires: string | null;
   message: string | null;
   created_at: string;
@@ -72,16 +73,7 @@ export default function AdminPage() {
 
   const totalCivile = rsvps.filter((r) => r.ceremonie_civile).length;
   const totalChateau = rsvps.filter((r) => r.reception_chateau).length;
-  const totalAccompagnants = rsvps.reduce(
-    (sum, r) => sum + r.nombre_accompagnants,
-    0
-  );
-  const accompagnantsCivile = rsvps
-    .filter((r) => r.ceremonie_civile)
-    .reduce((sum, r) => sum + r.nombre_accompagnants, 0);
-  const accompagnantsChateau = rsvps
-    .filter((r) => r.reception_chateau)
-    .reduce((sum, r) => sum + r.nombre_accompagnants, 0);
+  const totalPlusOnes = rsvps.filter((r) => r.plus_one).length;
 
   const exportCSV = () => {
     const headers = [
@@ -91,7 +83,8 @@ export default function AdminPage() {
       "Téléphone",
       "Cérémonie civile",
       "Réception château",
-      "Accompagnants",
+      "+1",
+      "Nom +1",
       "Restrictions alimentaires",
       "Message",
       "Date",
@@ -104,7 +97,8 @@ export default function AdminPage() {
       r.telephone || "",
       r.ceremonie_civile ? "Oui" : "Non",
       r.reception_chateau ? "Oui" : "Non",
-      r.nombre_accompagnants.toString(),
+      r.plus_one ? "Oui" : "Non",
+      r.plus_one_nom || "",
       r.restrictions_alimentaires || "",
       r.message || "",
       new Date(r.created_at).toLocaleDateString("fr-FR"),
@@ -186,35 +180,21 @@ export default function AdminPage() {
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg border border-sage/20 text-center">
-            <p className="text-3xl font-semibold text-sage">
-              {totalCivile}
-              <span className="text-base font-normal text-charcoal/40">
-                {" "}
-                (+{accompagnantsCivile})
-              </span>
-            </p>
+            <p className="text-3xl font-semibold text-sage">{totalCivile}</p>
             <p className="text-sm text-charcoal/60 font-serif">
               Cérémonie civile
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg border border-sage/20 text-center">
-            <p className="text-3xl font-semibold text-sage">
-              {totalChateau}
-              <span className="text-base font-normal text-charcoal/40">
-                {" "}
-                (+{accompagnantsChateau})
-              </span>
-            </p>
+            <p className="text-3xl font-semibold text-sage">{totalChateau}</p>
             <p className="text-sm text-charcoal/60 font-serif">
               Réception château
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg border border-sage/20 text-center">
-            <p className="text-3xl font-semibold text-sage">
-              {totalAccompagnants}
-            </p>
+            <p className="text-3xl font-semibold text-sage">{totalPlusOnes}</p>
             <p className="text-sm text-charcoal/60 font-serif">
-              Total accompagnants
+              +1 confirmés
             </p>
           </div>
         </div>
@@ -267,7 +247,7 @@ export default function AdminPage() {
                     Événement
                   </th>
                   <th className="px-4 py-3 font-serif font-medium text-sm text-charcoal/70">
-                    Acc.
+                    +1
                   </th>
                   <th className="px-4 py-3 font-serif font-medium text-sm text-charcoal/70">
                     Restrictions
@@ -302,8 +282,10 @@ export default function AdminPage() {
                         ? "Civile"
                         : "Château"}
                     </td>
-                    <td className="px-4 py-3 font-serif text-sm text-center">
-                      {r.nombre_accompagnants}
+                    <td className="px-4 py-3 font-serif text-sm">
+                      {r.plus_one
+                        ? r.plus_one_nom || "Oui"
+                        : "—"}
                     </td>
                     <td className="px-4 py-3 font-serif text-sm max-w-[200px] truncate">
                       {r.restrictions_alimentaires || "—"}

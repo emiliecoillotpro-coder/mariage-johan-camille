@@ -7,7 +7,8 @@ CREATE TABLE rsvp_responses (
   telephone TEXT,
   ceremonie_civile BOOLEAN NOT NULL DEFAULT false,
   reception_chateau BOOLEAN NOT NULL DEFAULT false,
-  nombre_accompagnants INTEGER NOT NULL DEFAULT 0,
+  plus_one BOOLEAN NOT NULL DEFAULT false,
+  plus_one_nom TEXT,
   restrictions_alimentaires TEXT,
   message TEXT,
   created_at TIMESTAMPTZ DEFAULT now()

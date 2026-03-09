@@ -11,7 +11,8 @@ export default function RSVPPage() {
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
   const [eventChoice, setEventChoice] = useState<EventChoice | null>(null);
-  const [nombreAccompagnants, setNombreAccompagnants] = useState(0);
+  const [plusOne, setPlusOne] = useState(false);
+  const [plusOneName, setPlusOneName] = useState("");
   const [restrictions, setRestrictions] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -47,7 +48,8 @@ export default function RSVPPage() {
         telephone: telephone.trim() || null,
         ceremonie_civile: ceremonieCivile,
         reception_chateau: receptionChateau,
-        nombre_accompagnants: nombreAccompagnants,
+        plus_one: plusOne,
+        plus_one_nom: plusOne ? plusOneName.trim() || null : null,
         restrictions_alimentaires: restrictions.trim() || null,
         message: message.trim() || null,
       });
@@ -234,24 +236,37 @@ export default function RSVPPage() {
             </div>
           </fieldset>
 
-          {/* Nombre d'accompagnants */}
+          {/* +1 */}
           <div>
-            <label className="block text-sm font-medium text-charcoal/70 mb-1">
-              Nombre d&apos;accompagnants
-            </label>
-            <select
-              value={nombreAccompagnants}
-              onChange={(e) =>
-                setNombreAccompagnants(parseInt(e.target.value))
-              }
-              className="w-full px-4 py-3 bg-white border border-sage/30 rounded-lg font-serif text-charcoal focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage/30 transition-colors"
+            <label
+              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                plusOne
+                  ? "border-sage bg-sage-light/50"
+                  : "border-sage/20 hover:border-sage/40"
+              }`}
             >
-              {[0, 1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>
-                  {n === 0 ? "Aucun" : n}
-                </option>
-              ))}
-            </select>
+              <input
+                type="checkbox"
+                checked={plusOne}
+                onChange={(e) => {
+                  setPlusOne(e.target.checked);
+                  if (!e.target.checked) setPlusOneName("");
+                }}
+                className="w-4 h-4 accent-sage"
+              />
+              <span className="font-serif text-charcoal">
+                Avez-vous un +1 ?
+              </span>
+            </label>
+            {plusOne && (
+              <input
+                type="text"
+                value={plusOneName}
+                onChange={(e) => setPlusOneName(e.target.value)}
+                className="w-full mt-3 px-4 py-3 bg-white border border-sage/30 rounded-lg font-serif text-charcoal focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage/30 transition-colors"
+                placeholder="Prénom et nom de votre +1"
+              />
+            )}
           </div>
 
           {/* Restrictions alimentaires */}
