@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
+const ADMIN_PASSWORD = "johan-camille-2026";
 
 export async function POST(request: Request) {
   const { password } = await request.json();
-  const adminPw = process.env.ADMIN_PASSWORD;
 
-  if (password === adminPw) {
+  if (password === ADMIN_PASSWORD) {
     return NextResponse.json({ ok: true });
   }
 
-  return NextResponse.json({ ok: false, debug: { hasEnv: !!adminPw, envLength: adminPw?.length } }, { status: 401 });
+  return NextResponse.json({ ok: false }, { status: 401 });
 }

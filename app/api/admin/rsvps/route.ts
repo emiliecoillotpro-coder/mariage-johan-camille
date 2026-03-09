@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const password = request.headers.get("x-admin-password");
 
-  if (password !== process.env.ADMIN_PASSWORD) {
+  if (password !== "johan-camille-2026") {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
