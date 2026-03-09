@@ -12,7 +12,6 @@ type RSVPResponse = {
   reception_chateau: boolean;
   plus_one: boolean;
   plus_one_nom: string | null;
-  restrictions_alimentaires: string | null;
   message: string | null;
   created_at: string;
 };
@@ -85,7 +84,6 @@ export default function AdminPage() {
       "Réception château",
       "+1",
       "Nom +1",
-      "Restrictions alimentaires",
       "Message",
       "Date",
     ];
@@ -99,7 +97,6 @@ export default function AdminPage() {
       r.reception_chateau ? "Oui" : "Non",
       r.plus_one ? "Oui" : "Non",
       r.plus_one_nom || "",
-      r.restrictions_alimentaires || "",
       r.message || "",
       new Date(r.created_at).toLocaleDateString("fr-FR"),
     ]);
@@ -250,9 +247,6 @@ export default function AdminPage() {
                     +1
                   </th>
                   <th className="px-4 py-3 font-serif font-medium text-sm text-charcoal/70">
-                    Restrictions
-                  </th>
-                  <th className="px-4 py-3 font-serif font-medium text-sm text-charcoal/70">
                     Message
                   </th>
                   <th className="px-4 py-3 font-serif font-medium text-sm text-charcoal/70">
@@ -286,9 +280,6 @@ export default function AdminPage() {
                       {r.plus_one
                         ? r.plus_one_nom || "Oui"
                         : "—"}
-                    </td>
-                    <td className="px-4 py-3 font-serif text-sm max-w-[200px] truncate">
-                      {r.restrictions_alimentaires || "—"}
                     </td>
                     <td className="px-4 py-3 font-serif text-sm max-w-[200px] truncate">
                       {r.message || "—"}
