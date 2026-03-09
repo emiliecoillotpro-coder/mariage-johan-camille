@@ -50,3 +50,4 @@ npm run dev
 2. Importer dans Vercel
 3. Ajouter les 3 variables d'environnement dans Vercel → Settings → Environment Variables
 4. Deploy
+
