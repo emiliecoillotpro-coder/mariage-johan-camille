@@ -74,6 +74,7 @@ export default function AdminPage() {
   const totalCivile = rsvps.filter((r) => r.ceremonie_civile).length;
   const totalChateau = rsvps.filter((r) => r.reception_chateau).length;
   const totalPlusOnes = rsvps.filter((r) => r.plus_one).length;
+  const totalEnfants = rsvps.reduce((sum, r) => sum + (r.nombre_enfants_mairie || 0), 0);
 
   const exportCSV = () => {
     const headers = [
@@ -172,7 +173,7 @@ export default function AdminPage() {
         </div>
 
         {/* Counters */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           <div className="bg-white p-4 rounded-lg border border-sage/20 text-center">
             <p className="text-3xl font-semibold text-sage">{rsvps.length}</p>
             <p className="text-sm text-charcoal/60 font-serif">
@@ -195,6 +196,12 @@ export default function AdminPage() {
             <p className="text-3xl font-semibold text-sage">{totalPlusOnes}</p>
             <p className="text-sm text-charcoal/60 font-serif">
               +1 confirmés
+            </p>
+          </div>
+          <div className="bg-white p-4 rounded-lg border border-sage/20 text-center">
+            <p className="text-3xl font-semibold text-sage">{totalEnfants}</p>
+            <p className="text-sm text-charcoal/60 font-serif">
+              Enfants mairie
             </p>
           </div>
         </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 
 type EventChoice = "civile" | "chateau" | "les-deux";
 
@@ -40,27 +39,33 @@ export default function RSVPPage() {
 
     setSubmitting(true);
 
-    const { error: dbError } = await supabase
-      .from("rsvp_responses")
-      .insert({
-        prenom: prenom.trim(),
-        nom: nom.trim(),
-        email: email.trim() || null,
-        telephone: telephone.trim() || null,
-        ceremonie_civile: ceremonieCivile,
-        reception_chateau: receptionChateau,
-        plus_one: plusOne,
-        plus_one_nom: plusOne ? plusOneName.trim() || null : null,
-        nombre_enfants_mairie: nombreEnfants,
-
-        message: message.trim() || null,
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prenom: prenom.trim(),
+          nom: nom.trim(),
+          email: email.trim() || null,
+          telephone: telephone.trim() || null,
+          ceremonie_civile: ceremonieCivile,
+          reception_chateau: receptionChateau,
+          plus_one: plusOne,
+          plus_one_nom: plusOne ? plusOneName.trim() || null : null,
+          nombre_enfants_mairie: nombreEnfants,
+          message: message.trim() || null,
+        }),
       });
 
-    setSubmitting(false);
+      setSubmitting(false);
 
-    if (dbError) {
+      if (!res.ok) {
+        setError("Une erreur est survenue. Veuillez réessayer.");
+        return;
+      }
+    } catch {
+      setSubmitting(false);
       setError("Une erreur est survenue. Veuillez réessayer.");
-      console.error(dbError);
       return;
     }
 
